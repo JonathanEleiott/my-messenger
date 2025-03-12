@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>My Messenger</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+
+  <body>
+    <h1>My Messenger</h1>
+
+    <form>
+      <input />
+      <button>Send Message</button>
+
+      <ul></ul>
+    </form>
+
+    <script>
+      const socket = io();
+
+      const input = document.querySelector('input');
+      const form = document.querySelector('form');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        
+        socket.emit('new message sent', input.value);
+        input.value = '';
+      });
+
+      socket.on('new message to relay', (receivedMessage) => {
+        const li = document.createElement('li');
+        li.innerText = receivedMessage;
+
+        const ul = document.querySelector('ul');
+        ul.append(li);
+      });
+
+    </script>
+  </body>
+</html>
